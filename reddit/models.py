@@ -54,13 +54,13 @@ class Subreddit(models.Model):
         null=False
     )
 
-    ban_message_header = models.TextField(
+    comment_reply_prefix = models.TextField(
         default="",
         blank=True,
         null=False
     )
 
-    ban_message_footer = models.TextField(
+    comment_reply_suffix = models.TextField(
         default="",
         blank=True,
         null=False
@@ -99,7 +99,7 @@ class RemovalAction(models.Model):
         null=False
     )
 
-    comment_reply_header = models.BooleanField(
+    use_comment_reply_prefix = models.BooleanField(
         help_text="Prefix the subreddit's general purpose reply header",
         default=True,
         null=False
@@ -111,7 +111,7 @@ class RemovalAction(models.Model):
         null=False
     )
 
-    comment_reply_footer = models.BooleanField(
+    use_comment_reply_suffix = models.BooleanField(
         help_text="Prefix the subreddit's general purpose reply footer",
         default=True,
         null=False
