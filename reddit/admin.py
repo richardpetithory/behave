@@ -1,11 +1,13 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from django.utils.html import format_html
 
 from reddit.models import AuthorizedUser, Subreddit, RemovalAction, RemovedPost
 
 
 class RemovalActionAdmin(admin.ModelAdmin):
-    list_display = ('subreddit', 'flair_text', 'description', 'ban_duration')
+    list_display = ('subreddit', 'flair_text', 'description', 'ban_duration', 'lock_post')
+    ordering = ('subreddit', 'flair_text')
 
 
 class RemovalActionInlineAdmin(admin.StackedInline):
@@ -41,3 +43,5 @@ admin.site.register(Subreddit, SubredditAdmin)
 admin.site.register(AuthorizedUser, AuthorizedUserAdmin)
 admin.site.register(RemovedPost, RemovedPostAdmin)
 admin.site.register(RemovalAction, RemovalActionAdmin)
+
+admin.site.unregister(Group)
