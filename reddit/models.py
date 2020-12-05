@@ -99,9 +99,21 @@ class RemovalAction(models.Model):
         null=False
     )
 
+    comment_reply_header = models.BooleanField(
+        help_text="Prefix the subreddit's general purpose reply header",
+        default=True,
+        null=False
+    )
+
     comment_reply = models.TextField(
         default="",
         blank=True,
+        null=False
+    )
+
+    comment_reply_footer = models.BooleanField(
+        help_text="Prefix the subreddit's general purpose reply footer",
+        default=True,
         null=False
     )
 
@@ -122,21 +134,9 @@ class RemovalAction(models.Model):
         null=False
     )
 
-    prefix_ban_message_header = models.BooleanField(
-        help_text="Prefix the subreddit's general purpose header",
-        default=True,
-        null=False
-    )
-
     ban_message = models.TextField(
         default="",
         blank=True,
-        null=False
-    )
-
-    prefix_ban_message_footer = models.BooleanField(
-        help_text="Prefix the subreddit's general purpose footer",
-        default=True,
         null=False
     )
 
