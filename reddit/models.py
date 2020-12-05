@@ -52,6 +52,13 @@ class Subreddit(models.Model):
         blank=False
     )
 
+    nickname = models.CharField(
+        max_length=21,
+        default="",
+        null=False,
+        blank=True
+    )
+
     active = models.BooleanField(
         default=True,
         null=False
@@ -76,7 +83,7 @@ class Subreddit(models.Model):
     )
 
     def __str__(self):
-        return self.display_name
+        return self.nickname or self.display_name
 
     @property
     def reddit_api(self) -> praw.Reddit:
@@ -204,6 +211,13 @@ class RemovedPost(models.Model):
         max_length=200,
         default=None,
         blank=True,
+        null=True
+    )
+
+    removal_action = models.ForeignKey(
+        verbose_name="Removal Reason",
+        to=RemovalAction,
+        on_delete=models.DO_NOTHING,
         null=True
     )
 

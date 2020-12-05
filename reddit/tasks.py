@@ -67,6 +67,7 @@ def process_flair_action(subreddit, flair_action):
         remove_post(submission)
 
         post_removal.removal_comment_id = removal_comment.id
+        post_removal.removal_action = removal_action
 
     post_removal.removal_date = datetime.datetime.utcnow()
     post_removal.flair_text_set = submission.link_flair_text
@@ -118,12 +119,15 @@ def delete_removal_comment(subreddit: Subreddit, post_removal):
 
 
 def ban_user(subreddit: Subreddit, submisssion: Submission, removal_action: RemovalAction) -> None:
+    ban_messsage = removal_action.ban_message.format(submisssion)
+    ban_note = removal_action.ban_note.format(submission)
+
     subreddit.api.banned.add(
         redditor=submisssion.author,
         duration=removal_action.ban_duration,
-        ban_message=removal_action.ban_message,
+        ban_message=ban_messsage,
         ban_reason=removal_action.ban_reason,
-        note=removal_action.ban_note
+        note=ban_note
     )
 
 
