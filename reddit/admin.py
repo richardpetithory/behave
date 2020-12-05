@@ -10,17 +10,8 @@ class RemovalActionAdmin(admin.ModelAdmin):
     ordering = ('subreddit', 'flair_text')
 
 
-class RemovalActionInlineAdmin(admin.StackedInline):
-    model = RemovalAction
-
-    def get_extra(self, request, obj=None, **kwargs):
-        return 0
-
-
 class SubredditAdmin(admin.ModelAdmin):
-    inlines = [
-        RemovalActionInlineAdmin,
-    ]
+    pass
 
 
 class AuthorizedUserAdmin(admin.ModelAdmin):
