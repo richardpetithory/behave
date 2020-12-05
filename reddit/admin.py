@@ -4,7 +4,11 @@ from django.utils.html import format_html
 from reddit.models import AuthorizedUser, Subreddit, RemovalAction, RemovedPost
 
 
-class RemovalActionAdmin(admin.StackedInline):
+class RemovalActionAdmin(admin.ModelAdmin):
+    list_display = ('subreddit', 'flair_text', 'description', 'ban_duration')
+
+
+class RemovalActionInlineAdmin(admin.StackedInline):
     model = RemovalAction
 
     def get_extra(self, request, obj=None, **kwargs):
@@ -13,7 +17,7 @@ class RemovalActionAdmin(admin.StackedInline):
 
 class SubredditAdmin(admin.ModelAdmin):
     inlines = [
-        RemovalActionAdmin,
+        RemovalActionInlineAdmin,
     ]
 
 
@@ -36,4 +40,4 @@ class RemovedPostAdmin(admin.ModelAdmin):
 admin.site.register(Subreddit, SubredditAdmin)
 admin.site.register(AuthorizedUser, AuthorizedUserAdmin)
 admin.site.register(RemovedPost, RemovedPostAdmin)
-admin.site.register(RemovalAction)
+admin.site.register(RemovalAction, RemovalActionAdmin)
