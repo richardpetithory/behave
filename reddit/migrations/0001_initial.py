@@ -28,7 +28,8 @@ class Migration(migrations.Migration):
                 ('display_name', models.CharField(max_length=21)),
                 ('active', models.BooleanField(default=True)),
                 ('default_ban_message', models.TextField(blank=True, default='')),
-                ('access_user', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='reddit.authorizeduser')),
+                ('access_user', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING,
+                                                  to='reddit.authorizeduser')),
             ],
         ),
         migrations.CreateModel(
