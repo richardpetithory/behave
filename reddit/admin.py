@@ -18,8 +18,9 @@ class SubredditAdmin(admin.ModelAdmin):
 
 
 class AuthorizedUserAdmin(admin.ModelAdmin):
-    readonly_fields = ('username', )
-    exclude = ('password', 'refresh_token')
+    pass
+    # readonly_fields = ('username', )
+    # exclude = ('password', 'refresh_token')
 
 
 class RemovedPostAdmin(admin.ModelAdmin):

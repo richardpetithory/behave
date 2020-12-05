@@ -1,13 +1,14 @@
 import datetime
 import logging
 from praw.models import Submission, Comment
-from prawcore.exceptions import PrawcoreException
 
 from .models import Subreddit, RemovalAction, RemovedPost
+from behave.celery import celery_app
 
 logger = logging.getLogger(__name__)
 
 
+@celery_app.task(bind=True)
 def process_active_subs():
     for subreddit in Subreddit.objects.filter(active=True):
         process_flair_actions(subreddit)
