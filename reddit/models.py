@@ -54,6 +54,18 @@ class Subreddit(models.Model):
         null=False
     )
 
+    ban_message_header = models.TextField(
+        default="",
+        blank=True,
+        null=False
+    )
+
+    ban_message_footer = models.TextField(
+        default="",
+        blank=True,
+        null=False
+    )
+
     def __str__(self):
         return self.display_name
 
@@ -110,9 +122,21 @@ class RemovalAction(models.Model):
         null=False
     )
 
+    prefix_ban_message_header = models.BooleanField(
+        help_text="Prefix the subreddit's general purpose header",
+        default=True,
+        null=False
+    )
+
     ban_message = models.TextField(
         default="",
         blank=True,
+        null=False
+    )
+
+    prefix_ban_message_footer = models.BooleanField(
+        help_text="Prefix the subreddit's general purpose footer",
+        default=True,
         null=False
     )
 

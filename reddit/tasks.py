@@ -56,7 +56,7 @@ def process_flair_action(subreddit, flair_action):
             ))
             return
 
-        removal_comment = post_removal_comment(submission, removal_action.comment_reply)
+        removal_comment = post_removal_comment(submission, removal_action)
 
         if removal_action.lock_post:
             submission.mod.lock()
@@ -85,7 +85,20 @@ def approve_post(submission: Submission):
     submission.mod.approve()
 
 
-def post_removal_comment(submission: Submission, message) -> Comment:
+def post_removal_comment(submission: Submission, removal_action: RemovalAction) -> Comment:
+    message = ""
+
+    if removal_action.use_default_ban_message:
+        message = removal_action.subreddit.default_ban_message
+    else:
+        if removal_action.prefix_ban_message_header:
+            message += removal_action.subreddit.ban_message_header + "\n\n"
+
+        message += message
+
+        if removal_action.prefix_ban_message_footer:
+            message += "\n\n" + removal_action.subreddit.ban_message_footer
+
     removal_comment = submission.reply(message)
 
     removal_comment.mod.approve()
