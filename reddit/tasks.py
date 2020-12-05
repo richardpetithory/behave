@@ -91,13 +91,13 @@ def post_removal_comment(submission: Submission, removal_action: RemovalAction) 
     if removal_action.use_default_ban_message:
         message = removal_action.subreddit.default_ban_message
     else:
-        if removal_action.prefix_ban_message_header:
-            message += removal_action.subreddit.ban_message_header + "\n\n"
+        if removal_action.use_comment_reply_prefix:
+            message += removal_action.subreddit.comment_reply_prefix + "\n\n"
 
         message += message
 
-        if removal_action.prefix_ban_message_footer:
-            message += "\n\n" + removal_action.subreddit.ban_message_footer
+        if removal_action.use_comment_reply_suffix:
+            message += "\n\n" + removal_action.subreddit.comment_reply_suffix
 
     removal_comment = submission.reply(message)
 
