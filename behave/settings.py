@@ -92,6 +92,7 @@ DATABASES = {
 DEFAUT_USER_AGENT = "Behave Bot"
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+REDIRECT_URI = os.environ.get('REDIRECT_URI')
 
 try:
     from behave import settings_local
@@ -101,5 +102,6 @@ try:
     DATABASES = getattr(settings_local, 'DATABASES', DATABASES)
     CLIENT_ID = getattr(settings_local, 'CLIENT_ID', CLIENT_ID)
     CLIENT_SECRET = getattr(settings_local, 'CLIENT_SECRET', CLIENT_SECRET)
+    REDIRECT_URI = getattr(settings_local, 'REDIRECT_URI', REDIRECT_URI)
 except ImportError as e:
     pass

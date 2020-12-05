@@ -7,7 +7,7 @@ def get_base_reddit_connection():
     return praw.Reddit(
         client_id=settings.CLIENT_ID,
         client_secret=settings.CLIENT_SECRET,
-        redirect_uri="http://localhost:8000/oauth",
+        redirect_uri=settings.REDIRECT_URI,
         user_agent=settings.DEFAUT_USER_AGENT
     )
 

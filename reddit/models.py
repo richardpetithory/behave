@@ -136,6 +136,10 @@ class RemovalAction(models.Model):
         null=False
     )
 
+    @property
+    def ban_user(self):
+        return self.ban_duration > 0 or self.permanent_ban
+
     ban_reason = models.CharField(
         max_length=100,
         default="",

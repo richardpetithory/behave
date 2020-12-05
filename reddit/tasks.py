@@ -88,7 +88,7 @@ def approve_post(submission: Submission):
 def post_removal_comment(submission: Submission, removal_action: RemovalAction) -> Comment:
     message = ""
 
-    if removal_action.use_default_ban_message:
+    if removal_action.ban_user:
         message = removal_action.subreddit.default_ban_message
     else:
         if removal_action.use_comment_reply_prefix:
@@ -99,7 +99,7 @@ def post_removal_comment(submission: Submission, removal_action: RemovalAction) 
         if removal_action.use_comment_reply_suffix:
             message += "\n\n" + removal_action.subreddit.comment_reply_suffix
 
-    message.format(submission)
+    message = message.format(submission)
 
     removal_comment = submission.reply(message)
 
