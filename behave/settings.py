@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dj_config_url import parse as db_urlparse
+from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -80,7 +81,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
 DATABASES = db_urlparse(os.environ.get("DATABASE_URL")) or {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
