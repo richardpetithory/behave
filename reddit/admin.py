@@ -36,3 +36,4 @@ class RemovedPostAdmin(admin.ModelAdmin):
 admin.site.register(Subreddit, SubredditAdmin)
 admin.site.register(AuthorizedUser, AuthorizedUserAdmin)
 admin.site.register(RemovedPost, RemovedPostAdmin)
+admin.site.register(RemovalAction)
