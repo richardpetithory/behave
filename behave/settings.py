@@ -101,5 +101,5 @@ try:
     DATABASES = getattr(settings_local, 'DATABASES', DATABASES)
     CLIENT_ID = getattr(settings_local, 'CLIENT_ID', CLIENT_ID)
     CLIENT_SECRET = getattr(settings_local, 'CLIENT_SECRET', CLIENT_SECRET)
-except ModuleNotFoundError as e:
-    print(e)
+except ImportError as e:
+    pass
