@@ -82,8 +82,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
-DATABASES = db_urlparse(os.environ.get("DATABASE_URL")) or {
-    'default': {
+DATABASES = {
+    'default': db_urlparse(os.environ.get("DATABASE_URL")) or {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
