@@ -94,7 +94,7 @@ def post_removal_comment(submission: Submission, removal_action: RemovalAction) 
         if removal_action.use_comment_reply_prefix:
             message += removal_action.subreddit.comment_reply_prefix + "\n\n"
 
-        message += message
+        message += removal_action.comment_reply
 
         if removal_action.use_comment_reply_suffix:
             message += "\n\n" + removal_action.subreddit.comment_reply_suffix
