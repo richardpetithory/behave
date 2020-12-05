@@ -122,6 +122,11 @@ class RemovalAction(models.Model):
         null=False
     )
 
+    permanent_ban = models.BooleanField(
+        default=False,
+        null=False
+    )
+
     ban_reason = models.CharField(
         max_length=100,
         default="",

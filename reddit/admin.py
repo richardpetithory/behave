@@ -6,7 +6,7 @@ from reddit.models import AuthorizedUser, Subreddit, RemovalAction, RemovedPost
 
 
 class RemovalActionAdmin(admin.ModelAdmin):
-    list_display = ('subreddit', 'flair_text', 'description', 'ban_duration', 'lock_post')
+    list_display = ('subreddit', 'flair_text', 'description', 'ban_duration', 'permanent_ban', 'lock_post')
     ordering = ('subreddit', 'flair_text')
 
 
