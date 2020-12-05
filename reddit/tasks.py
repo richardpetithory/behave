@@ -8,7 +8,7 @@ from behave.celery import celery_app
 logger = logging.getLogger(__name__)
 
 
-@celery_app.task(bind=True)
+@celery_app.task()
 def process_active_subs():
     for subreddit in Subreddit.objects.filter(active=True):
         process_flair_actions(subreddit)
