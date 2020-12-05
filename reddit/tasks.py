@@ -99,6 +99,8 @@ def post_removal_comment(submission: Submission, removal_action: RemovalAction) 
         if removal_action.use_comment_reply_suffix:
             message += "\n\n" + removal_action.subreddit.comment_reply_suffix
 
+    message.format(submission)
+
     removal_comment = submission.reply(message)
 
     removal_comment.mod.approve()
