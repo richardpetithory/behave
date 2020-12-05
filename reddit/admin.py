@@ -2,7 +2,13 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.utils.html import format_html
 
-from reddit.models import AuthorizedUser, Subreddit, RemovalAction, RemovedPost
+from reddit.models import (
+    AuthorizedUser,
+    AuthorizedUserForm,
+    RemovalAction,
+    RemovedPost,
+    Subreddit,
+)
 
 
 class RemovalActionAdmin(admin.ModelAdmin):
@@ -15,9 +21,7 @@ class SubredditAdmin(admin.ModelAdmin):
 
 
 class AuthorizedUserAdmin(admin.ModelAdmin):
-    pass
-    # readonly_fields = ('username', )
-    # exclude = ('password', 'refresh_token')
+    form = AuthorizedUserForm
 
 
 class RemovedPostAdmin(admin.ModelAdmin):

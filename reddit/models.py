@@ -1,5 +1,6 @@
 import praw
 from django.db import models
+from django import forms
 
 from reddit import get_authed_reddit_connection
 
@@ -29,6 +30,14 @@ class AuthorizedUser(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class AuthorizedUserForm(forms.ModelForm):
+    class Meta:
+        model = AuthorizedUser
+        fields = ['username', 'password']
+
+    password = forms.CharField(widget=forms.PasswordInput())
 
 
 class Subreddit(models.Model):
@@ -159,6 +168,7 @@ class RemovalAction(models.Model):
 
     def __str__(self):
         return self.description
+
 
 class RemovedPost(models.Model):
     subreddit = models.ForeignKey(

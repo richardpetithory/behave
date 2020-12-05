@@ -30,4 +30,4 @@ def oauth_callback(request):
 
     authorized_user.save()
 
-    return redirect("/admin/reddit/authorizeduser/")
+    return redirect("/reddit/authorizeduser/")
