@@ -25,12 +25,12 @@ class AuthorizedUserAdmin(admin.ModelAdmin):
 
 
 class RemovedPostAdmin(admin.ModelAdmin):
-    list_display = ('subreddit', 'post_title_link', 'author_search_link', 'removal_date', 'removal_action')
+    list_display = ('post_title', 'author_search_link', 'removal_date', 'removal_action', 'post_title_link')
     search_fields = ('author', )
     list_filter = ('subreddit__display_name', 'removal_action', 'removal_date')
 
     def post_title_link(self, post):
-        return format_html('<a href="{url}">{url}</a>'.format(url=post.post_title))
+        return format_html('<a href="{url}">link</a>'.format(url=post.post_url))
     post_title_link.allow_tags = True
     post_title_link.short_description = "Post Title"
 
