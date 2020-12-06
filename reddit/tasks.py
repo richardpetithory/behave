@@ -28,6 +28,7 @@ def process_flair_action(subreddit, flair_action):
     submission = subreddit.reddit_api.submission(id=submission_id)
 
     if not RemovedPost.objects.filter(submission_id=submission_id) and not submission.link_flair_text:
+        logger.warning("Skipping because no previous log entry found and no flair text set")
         return
 
     post_removal, is_new = RemovedPost.objects.get_or_create(
@@ -42,6 +43,7 @@ def process_flair_action(subreddit, flair_action):
     )
 
     if not is_new and submission.link_flair_text == post_removal.flair_text_set:
+        logger.warning("Skipping because previous log entry found but flair text has not changed")
         return
 
     if not is_new and submission.link_flair_text != post_removal.flair_text_set and post_removal.removal_comment_id:
@@ -125,7 +127,7 @@ def delete_removal_comment(subreddit: Subreddit, post_removal):
 
 def ban_user(subreddit: Subreddit, submisssion: Submission, removal_action: RemovalAction) -> None:
     ban_messsage = removal_action.ban_message.format(submisssion)
-    ban_note = removal_action.ban_note.format(submission)
+    ban_note = removal_action.ban_note.format(submisssion)
 
     subreddit.api.banned.add(
         redditor=submisssion.author,

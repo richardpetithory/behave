@@ -18,7 +18,10 @@ def main():
     logger.warning("Bot started")
 
     while True:
-        process_active_subs()
+        try:
+            process_active_subs()
+        except Exception as e:
+            logger.warning(e)
 
         time.sleep(5)
 
