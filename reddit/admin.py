@@ -32,7 +32,7 @@ class RemovedPostAdmin(admin.ModelAdmin):
     def post_title_link(self, post):
         return format_html('<a href="{url}">link</a>'.format(url=post.post_url))
     post_title_link.allow_tags = True
-    post_title_link.short_description = "Post Title"
+    post_title_link.short_description = "Post URL"
 
     def author_search_link(self, post):
         return format_html('<a href="?q={author}">{author}</a>'.format(author=post.author))
