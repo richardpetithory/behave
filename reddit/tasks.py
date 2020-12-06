@@ -1,5 +1,4 @@
 import datetime
-import functools
 import logging
 from praw.models import Submission, Comment
 
@@ -24,14 +23,13 @@ def process_flair_actions(subreddit: Subreddit):
         process_flair_action(subreddit, flair_action)
 
 
-@functools.cache(maxsize=50)
 def get_submission_by_id(subreddit: Subreddit, submission_id):
     return subreddit.reddit_api.submission(id=submission_id)
 
 
 def process_flair_action(subreddit, flair_action):
     submission_id = id_from_target_fullname(flair_action.target_fullname)
-    submission = get_submission_by_id(id=submission_id)
+    submission = get_submission_by_id(subreddit, submission_id)
 
     if not RemovedPost.objects.filter(submission_id=submission_id) and not submission.link_flair_text:
         logger.warning("Skipping because no previous log entry found and no flair text set")
@@ -148,7 +146,7 @@ def get_flair_actions_for_sub(subreddit: Subreddit):
     return [
         mod_action
         for mod_action
-        in list(subreddit.api.mod.log(action='editflair', limit=10))
+        in list(subreddit.api.mod.log(action='editflair', limit=5))
         if mod_action.details == "flair_edit"
     ]
 
