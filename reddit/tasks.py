@@ -139,9 +139,12 @@ def ban_user(subreddit: Subreddit, submisssion: Submission, removal_action: Remo
 
 
 def get_flair_actions_for_sub(subreddit: Subreddit):
-    for mod_action in subreddit.api.mod.log(action='editflair', limit=10):
-        if mod_action.details == "flair_edit":
-            yield mod_action
+    return [
+        mod_action
+        for mod_action
+        in list(subreddit.api.mod.log(action='editflair', limit=10))
+        if mod_action.details == "flair_edit"
+    ]
 
 
 def id_from_target_fullname(target_fullname):
