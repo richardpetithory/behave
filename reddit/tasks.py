@@ -39,7 +39,7 @@ def process_flair_action(subreddit, flair_action):
         submission_id=submission_id,
         defaults={
             'subreddit': subreddit,
-            'author': submission.author.name,
+            'author': getattr(submission.author, "name", "<deleted>"),
             'post_url': submission.url,
             'post_title': submission.title,
             'post_body': submission.selftext,
