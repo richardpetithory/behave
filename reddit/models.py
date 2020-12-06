@@ -242,5 +242,11 @@ class RemovedPost(models.Model):
         null=False
     )
 
+    post_body = models.TextField(
+        default="",
+        blank=True,
+        null=False
+    )
+
     def __str__(self):
         return self.post_title

@@ -32,7 +32,8 @@ def process_flair_action(subreddit, flair_action):
             'subreddit': subreddit,
             'author': submission.author.name,
             'post_url': submission.url,
-            'post_title': submission.title
+            'post_title': submission.title,
+            'post_body': submission.selftext,
         }
     )
 
