@@ -82,6 +82,11 @@ class Subreddit(models.Model):
         null=False
     )
 
+    read_only = models.BooleanField(
+        default=False,
+        null=False
+    )
+
     def __str__(self):
         return self.nickname or self.display_name
 

@@ -51,8 +51,10 @@ def process_flair_action(subreddit, flair_action):
         return
 
     if not is_new and submission.link_flair_text != post_removal.flair_text_set and post_removal.removal_comment_id:
-        delete_removal_comment(subreddit, post_removal)
-        approve_post(submission)
+        if not subreddit.read_only:
+            delete_removal_comment(subreddit, post_removal)
+            approve_post(submission)
+
         post_removal.delete()
         logger.warning("Deleted removal comment for post {submission}".format(submission=submission))
         return
@@ -67,17 +69,19 @@ def process_flair_action(subreddit, flair_action):
             ))
             return
 
-        removal_comment = post_removal_comment(submission, removal_action)
+        if not subreddit.read_only:
+            removal_comment = post_removal_comment(submission, removal_action)
 
-        if removal_action.lock_post:
-            submission.mod.lock()
+            if removal_action.lock_post:
+                submission.mod.lock()
 
-        if removal_action.ban_duration > 0:
-            ban_user(subreddit, submission, removal_action)
+            if removal_action.ban_duration > 0:
+                ban_user(subreddit, submission, removal_action)
 
-        remove_post(submission)
+            remove_post(submission)
 
-        post_removal.removal_comment_id = removal_comment.id
+            post_removal.removal_comment_id = removal_comment.id
+
         post_removal.removal_action = removal_action
 
     post_removal.removal_date = datetime.datetime.utcnow()
