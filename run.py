@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
+import logging
 import os
 import time
+
+logger = logging.getLogger(__name__)
 
 
 def main():
@@ -11,6 +14,8 @@ def main():
     django.setup()
 
     from reddit.tasks import process_active_subs
+
+    logger.warning("Bot started")
 
     while True:
         process_active_subs()

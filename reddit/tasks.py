@@ -10,11 +10,15 @@ logger = logging.getLogger(__name__)
 
 @celery_app.task()
 def process_active_subs():
+    logger.warning("Processing active subs")
+
     for subreddit in Subreddit.objects.filter(active=True):
         process_flair_actions(subreddit)
 
 
 def process_flair_actions(subreddit: Subreddit):
+    logger.warning("Processing flairs for sub {subreddit}".format(subreddit))
+
     for flair_action in get_flair_actions_for_sub(subreddit):
         process_flair_action(subreddit, flair_action)
 
