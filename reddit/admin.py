@@ -15,6 +15,8 @@ class RemovalActionAdmin(admin.ModelAdmin):
     list_display = ('subreddit', 'flair_text', 'description', 'ban_duration', 'permanent_ban', 'lock_post')
     ordering = ('subreddit', 'flair_text')
 
+    save_as = True
+
 
 class SubredditAdmin(admin.ModelAdmin):
     pass
