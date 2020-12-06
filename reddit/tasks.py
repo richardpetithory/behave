@@ -17,7 +17,7 @@ def process_active_subs():
 
 
 def process_flair_actions(subreddit: Subreddit):
-    logger.warning("Processing flairs for sub {subreddit}".format(subreddit))
+    logger.warning("Processing flairs for sub {subreddit}".format(subreddit=subreddit))
 
     for flair_action in get_flair_actions_for_sub(subreddit):
         process_flair_action(subreddit, flair_action)
