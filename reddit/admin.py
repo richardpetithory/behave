@@ -40,6 +40,7 @@ class RemovedPostAdmin(admin.ModelAdmin):
         return format_html('<a href="?q={author}">{author}</a>'.format(author=post.author))
     author_search_link.allow_tags = True
     author_search_link.short_description = "Author"
+    author_search_link.admin_order_field = "author"
 
 
 admin.site.register(Subreddit, SubredditAdmin)
