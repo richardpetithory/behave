@@ -48,7 +48,7 @@ admin.site.register(AuthorizedUser, AuthorizedUserAdmin)
 admin.site.register(RemovedPost, RemovedPostAdmin)
 admin.site.register(RemovalAction, RemovalActionAdmin)
 
-admin.site.unregister(Group)
+# admin.site.unregister(Group)
 
 admin.site.site_header = "Behave Bot Administration"
 admin.site.site_title = "Behave Bot"
