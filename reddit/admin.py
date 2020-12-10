@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.utils.html import format_html
 
 from reddit.models import (
@@ -48,7 +48,8 @@ admin.site.register(AuthorizedUser, AuthorizedUserAdmin)
 admin.site.register(RemovedPost, RemovedPostAdmin)
 admin.site.register(RemovalAction, RemovalActionAdmin)
 
-# admin.site.unregister(Group)
+admin.site.unregister(Group)
+admin.site.unregister(User)
 
 admin.site.site_header = "Behave Bot Administration"
 admin.site.site_title = "Behave Bot"
