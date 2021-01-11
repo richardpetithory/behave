@@ -1,6 +1,6 @@
 import datetime
 import logging
-from praw.models import Submission, Comment
+from praw.models import Submission, Comment, User
 
 from .models import Subreddit, RemovalAction, RemovedPost
 from behave.celery import celery_app
@@ -76,6 +76,7 @@ def process_flair_action(subreddit, flair_action):
                 submission.mod.lock()
 
             if removal_action.ban_duration > 0:
+                send_ban_message(subreddit, submission)
                 ban_user(subreddit, submission, removal_action)
 
             remove_post(submission)
@@ -93,6 +94,11 @@ def process_flair_action(subreddit, flair_action):
     ))
 
 
+def send_ban_message(subreddit: Subreddit, submission: Submission):
+    redditor = subreddit.reddit_api.redditor(submission.author)
+    redditor.message(subreddit.default_ban_message_subject, subreddit.default_ban_message)
+
+
 def remove_post(submission: Submission):
     submission.mod.remove()
 
@@ -104,16 +110,16 @@ def approve_post(submission: Submission):
 def post_removal_comment(submission: Submission, removal_action: RemovalAction) -> Comment:
     message = ""
 
-    if removal_action.ban_user:
-        message = removal_action.subreddit.default_ban_message
-    else:
-        if removal_action.use_comment_reply_prefix:
-            message += removal_action.subreddit.comment_reply_prefix + "\n\n"
+    # if removal_action.ban_user:
+    #     message = removal_action.subreddit.default_ban_message
+    # else:
+    if removal_action.use_comment_reply_prefix:
+        message += removal_action.subreddit.comment_reply_prefix + "\n\n"
 
-        message += removal_action.comment_reply
+    message += removal_action.comment_reply
 
-        if removal_action.use_comment_reply_suffix:
-            message += "\n\n" + removal_action.subreddit.comment_reply_suffix
+    if removal_action.use_comment_reply_suffix:
+        message += "\n\n" + removal_action.subreddit.comment_reply_suffix
 
     message = message.format(submission)
 

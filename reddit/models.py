@@ -64,6 +64,12 @@ class Subreddit(models.Model):
         null=False
     )
 
+    default_ban_message_subject = models.TextField(
+        default="",
+        blank=True,
+        null=False
+    )
+
     default_ban_message = models.TextField(
         default="",
         blank=True,
