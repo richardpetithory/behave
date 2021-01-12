@@ -101,8 +101,14 @@ def process_flair_action(subreddit, flair_action):
 
 
 def send_ban_message(subreddit: Subreddit, submission: Submission):
-    redditor = subreddit.reddit_api.redditor(str(submission.author))
-    redditor.message(subreddit.default_ban_message_subject, subreddit.default_ban_message)
+    author_name = str(submission.author)
+
+    logger.warning("Sending ban message to {user}".format(user=author_name))
+
+    message = subreddit.default_ban_message.format(submission)
+
+    redditor = subreddit.reddit_api.redditor(author_name)
+    redditor.message(subreddit.default_ban_message_subject, message)
 
 
 def remove_post(submission: Submission):
@@ -135,6 +141,8 @@ def post_removal_comment(submission: Submission, removal_action: RemovalAction) 
 
 
 def delete_removal_comment(subreddit: Subreddit, post_removal):
+    logger.warning("Deleting removal comment {post_id}".format(post_id=post_removal.removal_comment_id))
+
     removal_comment = Comment(id=post_removal.removal_comment_id, reddit=subreddit.reddit_api)
     removal_comment.delete()
 
@@ -143,11 +151,15 @@ def delete_removal_comment(subreddit: Subreddit, post_removal):
 
 
 def ban_user(subreddit: Subreddit, submisssion: Submission, removal_action: RemovalAction) -> None:
+    author_name = str(submisssion.author)
+
+    logger.warning("Banning user {author_name}".format(author_name=author_name))
+
     ban_messsage = removal_action.ban_message.format(submisssion)
     ban_note = removal_action.ban_note.format(submisssion)
 
     subreddit.api.banned.add(
-        redditor=submisssion.author,
+        redditor=author_name,
         duration=removal_action.ban_duration,
         ban_message=ban_messsage,
         ban_reason=removal_action.ban_reason,
