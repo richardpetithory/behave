@@ -1,6 +1,6 @@
 import datetime
 import logging
-from praw.models import Submission, Comment, User
+from praw.models import Submission, Comment
 
 from .models import Subreddit, RemovalAction, RemovedPost
 from behave.celery import celery_app
@@ -61,7 +61,10 @@ def process_flair_action(subreddit, flair_action):
 
     if submission.link_flair_text:
         try:
-            removal_action = RemovalAction.objects.get(flair_text=submission.link_flair_text)
+            removal_action = RemovalAction.objects.get(
+                subreddit=subreddit,
+                flair_text=submission.link_flair_text
+            )
         except RemovalAction.DoesNotExist:
             logger.warning("Post {post_url} marked with unknown flair: \"{flair_text}\"".format(
                 post_url=submission.shortlink,
@@ -76,8 +79,11 @@ def process_flair_action(subreddit, flair_action):
                 submission.mod.lock()
 
             if removal_action.ban_duration > 0:
-                send_ban_message(subreddit, submission)
-                ban_user(subreddit, submission, removal_action)
+                try:
+                    send_ban_message(subreddit, submission)
+                    ban_user(subreddit, submission, removal_action)
+                except Exception as e:
+                    logger.warning("Error banning user: {error}".format(error=e))
 
             remove_post(submission)
 
