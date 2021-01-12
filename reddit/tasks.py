@@ -95,7 +95,7 @@ def process_flair_action(subreddit, flair_action):
 
 
 def send_ban_message(subreddit: Subreddit, submission: Submission):
-    redditor = subreddit.reddit_api.redditor(submission.author)
+    redditor = subreddit.reddit_api.redditor(str(submission.author))
     redditor.message(subreddit.default_ban_message_subject, subreddit.default_ban_message)
 
 
