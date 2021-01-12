@@ -65,8 +65,8 @@ class Subreddit(models.Model):
     )
 
     default_ban_message_subject = models.TextField(
-        default="",
-        blank=True,
+        default="You have been banned",
+        blank=False,
         null=False
     )
 
