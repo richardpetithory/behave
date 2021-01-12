@@ -110,9 +110,6 @@ def approve_post(submission: Submission):
 def post_removal_comment(submission: Submission, removal_action: RemovalAction) -> Comment:
     message = ""
 
-    # if removal_action.ban_user:
-    #     message = removal_action.subreddit.default_ban_message
-    # else:
     if removal_action.use_comment_reply_prefix:
         message += removal_action.subreddit.comment_reply_prefix + "\n\n"
 
