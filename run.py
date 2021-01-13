@@ -23,7 +23,7 @@ def main():
         except Exception as e:
             logger.warning(e)
 
-        time.sleep(5)
+        time.sleep(8)
 
 
 if __name__ == "__main__":
