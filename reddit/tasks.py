@@ -78,7 +78,7 @@ def process_flair_action(subreddit, flair_action):
             if removal_action.lock_post:
                 submission.mod.lock()
 
-            if removal_action.ban_duration > 0:
+            if removal_action.ban_duration > 0 or removal_action.permanent_ban:
                 try:
                     send_ban_message(subreddit, submission)
                     ban_user(subreddit, submission, removal_action)
@@ -158,9 +158,11 @@ def ban_user(subreddit: Subreddit, submisssion: Submission, removal_action: Remo
     ban_messsage = removal_action.ban_message.format(submisssion)
     ban_note = removal_action.ban_note.format(submisssion)
 
+    ban_duration = None if removal_action.permanent_ban else removal_action.ban_duration
+
     subreddit.api.banned.add(
         redditor=author_name,
-        duration=removal_action.ban_duration,
+        duration=ban_duration,
         ban_message=ban_messsage,
         ban_reason=removal_action.ban_reason,
         note=ban_note
