@@ -28,6 +28,7 @@ class AuthorizedUserAdmin(admin.ModelAdmin):
 
 class RemovedPostAdmin(admin.ModelAdmin):
     list_display = ('post_title', 'author_search_link', 'removal_date', 'removal_action', 'post_title_link')
+    list_per_page = 15
     search_fields = ('author', 'post_title')
     list_filter = ('subreddit__display_name', 'removal_action', 'removal_date')
 
