@@ -81,6 +81,10 @@ def process_flair_action(subreddit, flair_action):
             if removal_action.ban_duration > 0 or removal_action.permanent_ban:
                 try:
                     send_ban_message(subreddit, submission)
+                except Exception as e:
+                    logger.warning("Error sending ban message: {error}".format(error=e))
+
+                try:
                     ban_user(subreddit, submission, removal_action)
                 except Exception as e:
                     logger.warning("Error banning user: {error}".format(error=e))
