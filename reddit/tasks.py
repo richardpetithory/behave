@@ -75,6 +75,8 @@ def process_flair_action(subreddit, flair_action):
         if not subreddit.read_only:
             removal_comment = post_removal_comment(submission, removal_action)
 
+            post_removal.removal_comment_id = removal_comment.id
+
             if removal_action.lock_post:
                 submission.mod.lock()
 
@@ -89,10 +91,11 @@ def process_flair_action(subreddit, flair_action):
                 except Exception as e:
                     logger.warning("Error banning user: {error}".format(error=e))
 
-            remove_post(submission)
-
-            post_removal.removal_comment_id = removal_comment.id
-
+            try:
+                remove_post(submission)
+            except Exception as e:
+                logger.warning("Error removing offending post: {error}".format(error=e))
+                
         post_removal.removal_action = removal_action
 
     post_removal.removal_date = datetime.datetime.utcnow()
