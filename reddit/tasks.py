@@ -10,14 +10,14 @@ logger = logging.getLogger(__name__)
 
 @celery_app.task()
 def process_active_subs():
-    logger.warning("Processing active subs")
+    logger.warning("13: Processing active subs")
 
     for subreddit in Subreddit.objects.filter(active=True):
         process_flair_actions(subreddit)
 
 
 def process_flair_actions(subreddit: Subreddit):
-    logger.warning("Processing flairs for sub {subreddit}".format(subreddit=subreddit))
+    logger.warning("12: Processing flairs for sub {subreddit}".format(subreddit=subreddit))
 
     for flair_action in get_flair_actions_for_sub(subreddit):
         process_flair_action(subreddit, flair_action)
@@ -32,7 +32,7 @@ def process_flair_action(subreddit, flair_action):
     submission = get_submission_by_id(subreddit, submission_id)
 
     if not RemovedPost.objects.filter(submission_id=submission_id) and not submission.link_flair_text:
-        logger.warning("Skipping because no previous log entry found and no flair text set")
+        logger.warning("11: Skipping because no previous log entry found and no flair text set")
         return
 
     post_removal, is_new = RemovedPost.objects.get_or_create(
@@ -47,7 +47,7 @@ def process_flair_action(subreddit, flair_action):
     )
 
     if not is_new and submission.link_flair_text == post_removal.flair_text_set:
-        logger.warning("Skipping because previous log entry found but flair text has not changed")
+        logger.warning("10: Skipping because previous log entry found but flair text has not changed")
         return
 
     if not is_new and submission.link_flair_text != post_removal.flair_text_set and post_removal.removal_comment_id:
@@ -56,7 +56,7 @@ def process_flair_action(subreddit, flair_action):
             approve_post(submission)
 
         post_removal.delete()
-        logger.warning("Deleted removal comment for post {submission}".format(submission=submission))
+        logger.warning("9: Deleted removal comment for post {submission}".format(submission=submission))
         return
 
     if submission.link_flair_text:
@@ -66,7 +66,7 @@ def process_flair_action(subreddit, flair_action):
                 flair_text=submission.link_flair_text
             )
         except RemovalAction.DoesNotExist:
-            logger.warning("Post {post_url} marked with unknown flair: \"{flair_text}\"".format(
+            logger.warning("8: Post {post_url} marked with unknown flair: \"{flair_text}\"".format(
                 post_url=submission.shortlink,
                 flair_text=submission.link_flair_text
             ))
@@ -84,25 +84,25 @@ def process_flair_action(subreddit, flair_action):
                 try:
                     send_ban_message(subreddit, submission)
                 except Exception as e:
-                    logger.warning("Error sending ban message: {error}".format(error=e))
+                    logger.warning("7: Error sending ban message: {error}".format(error=e))
 
                 try:
                     ban_user(subreddit, submission, removal_action)
                 except Exception as e:
-                    logger.warning("Error banning user: {error}".format(error=e))
+                    logger.warning("6: Error banning user: {error}".format(error=e))
 
             try:
                 remove_post(submission)
             except Exception as e:
-                logger.warning("Error removing offending post: {error}".format(error=e))
-                
+                logger.warning("5: Error removing offending post: {error}".format(error=e))
+
         post_removal.removal_action = removal_action
 
     post_removal.removal_date = datetime.datetime.utcnow()
     post_removal.flair_text_set = submission.link_flair_text
     post_removal.save()
 
-    logger.warning("Processed flagged post {submission}".format(
+    logger.warning("4: Processed flagged post {submission}".format(
         submission=submission
     ))
 
@@ -110,7 +110,7 @@ def process_flair_action(subreddit, flair_action):
 def send_ban_message(subreddit: Subreddit, submission: Submission):
     author_name = str(submission.author)
 
-    logger.warning("Sending ban message to {user}".format(user=author_name))
+    logger.warning("3: Sending ban message to {user}".format(user=author_name))
 
     message = subreddit.default_ban_message.format(submission)
 
@@ -148,7 +148,7 @@ def post_removal_comment(submission: Submission, removal_action: RemovalAction) 
 
 
 def delete_removal_comment(subreddit: Subreddit, post_removal):
-    logger.warning("Deleting removal comment {post_id}".format(post_id=post_removal.removal_comment_id))
+    logger.warning("2: Deleting removal comment {post_id}".format(post_id=post_removal.removal_comment_id))
 
     removal_comment = Comment(id=post_removal.removal_comment_id, reddit=subreddit.reddit_api)
     removal_comment.delete()
@@ -160,7 +160,7 @@ def delete_removal_comment(subreddit: Subreddit, post_removal):
 def ban_user(subreddit: Subreddit, submisssion: Submission, removal_action: RemovalAction) -> None:
     author_name = str(submisssion.author)
 
-    logger.warning("Banning user {author_name}".format(author_name=author_name))
+    logger.warning("1: Banning user {author_name}".format(author_name=author_name))
 
     ban_messsage = removal_action.ban_message.format(submisssion)
     ban_note = removal_action.ban_note.format(submisssion)

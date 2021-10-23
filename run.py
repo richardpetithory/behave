@@ -15,13 +15,13 @@ def main():
 
     from reddit.tasks import process_active_subs
 
-    logger.warning("Bot started")
+    logger.warning("14: Bot started")
 
     while True:
         try:
             process_active_subs()
         except Exception as e:
-            logger.warning(e)
+            logger.warning("15: " + str(e))
 
         time.sleep(8)
 
