@@ -4,6 +4,8 @@ import logging
 import os
 import time
 
+from django.db.utils import OperationalError
+
 logger = logging.getLogger(__name__)
 
 
@@ -20,6 +22,8 @@ def main():
     while True:
         try:
             process_active_subs()
+        except OperationalError:
+            django.setup()
         except Exception as e:
             logger.warning("15: " + str(e))
 

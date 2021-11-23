@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Link</th>
+        </tr>
+    </thead>
+    {% for record in user_activity %}
+        <tr>
+            <td>
+                <a href="https://www.reddit.com{{ record.permalink }}">{{ record.body}} {{ record.title }}</a>
+                <hr>
+            </td>
+        </tr>
+
+    {% endfor %}
+</table>
